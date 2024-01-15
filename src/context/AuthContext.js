@@ -43,20 +43,12 @@ export const AuthContextProvider = ({ children }) => {
         authIsReady: false // This is what tells how now we know whether there's a user logged in or logged out for sure.
     })
 
-    // Update state change with Firebase
-    /* If when we fire this function, checks
-       if user is null or if there are any users
-       to begin with */
+    /* Update state change with Firebase
+       When function fires checks if user is 
+       null or if there are any users at all */
     useEffect(() => {
-        /* so how do we then cancel this kind of 
-           subscription to authentication status 
-           once we performed this dispatch once? 
-           
-           So the projectAuth.onAuthStateChanged functions,
-           which stores  is 
-           stored*/
-        const unsub = projectAuth.onAuthStateChanged((user) => {
-            dispatch({ type: 'AUTH_IS_READY', payload: user }) // Fires every time some kind of authentication state change occurs and dispatches AUTH_IS_READY
+        const unsub = projectAuth.onAuthStateChanged((user) => { // Fires every time some kind of authentication state change occurs and dispatches AUTH_IS_READY
+            dispatch({ type: 'AUTH_IS_READY', payload: user }) 
             unsub()
         })
 

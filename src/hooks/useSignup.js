@@ -54,5 +54,5 @@ export const useSignup = () => {
                                          // navigate away, then it fires the cleanup
     }, [])
 
-    return { error, isPending, signup }
+    return { signup, isPending, error }
 }

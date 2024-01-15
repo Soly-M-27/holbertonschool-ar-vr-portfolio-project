@@ -10,14 +10,10 @@ export const useLogin = () => { // if we use this hook in a component,
     const [ isPending, setIsPending ] = useState(false);
     const { dispatch } = useAuthContext();
 
-    /* create a log out function because we don't automatically 
-    want to log the user out when they use this hook inside a component.
-    We might want to use this hook in a component and then only log 
-    the user out in that component when they click on a button. */
     const login = async (email, password) => { // If we call this function, 
-                                 // it's going to try and sign the user 
-                                 // in, update the state, etcetera, while
-                                 // also firing the cleanup function right away. 
+                                 // it's going to try and login the user, 
+                                 // update the state, etcetera, while also
+                                 // firing the cleanup function right away. 
         setError(null)
         setIsPending(true)
 
@@ -25,8 +21,6 @@ export const useLogin = () => { // if we use this hook in a component,
         try { // try to sign user in and get user via const var res
             console.log(email, password);
             const res = await projectAuth.signInWithEmailAndPassword(email, password);
-            console.log('Request Headers:', res.config.headers);
-            console.log('Response Headers:', res.headers);
 
             // dispatch login action
             dispatch({ type: 'LOGIN', payload: res.user }); // This is what will log the user 
@@ -37,7 +31,6 @@ export const useLogin = () => { // if we use this hook in a component,
                 setIsPending(false);
                 setError(null);
             }
-
         }
         catch(err) { //otherwise, set the error, log it out and set isPending as false
             if (!isCancelled) {

@@ -10,21 +10,11 @@ export default function Login() {
     const { login, error, isPending } = useLogin();
 
     const handleSubmit = (e) => {
-        console.log("Begin handleSubmit");
         e.preventDefault();
-        const log = login(email, password);
-        try {
-            if(log) {
-                console.log("After var check: ", email, password);
-                console.log("Success LOGIN. Firebase response???");
-            }
-        }
-        catch(err) {
-            console.log("Caught err")
-            console.log(err);
-            console.log(err.message);
-            throw new Error('Could not complete LOGIN');
-        }
+        login(email, password);
+        console.log("Begin handleSubmit");
+        console.log("After login: ", email, password);
+        console.log("Success LOGIN. Firebase response???");
     }
 
     return (
