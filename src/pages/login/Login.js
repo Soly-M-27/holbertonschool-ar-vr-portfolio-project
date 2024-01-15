@@ -12,7 +12,7 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         login(email, password);
-        console.log("Begin handleSubmit");
+        console.log("Begin handleSubmit after login");
         console.log("After login: ", email, password);
         console.log("Success LOGIN. Firebase response???");
     }
