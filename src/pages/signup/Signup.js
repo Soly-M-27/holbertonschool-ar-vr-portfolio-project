@@ -37,7 +37,8 @@ export default function Signup() {
     }
 
     return (
-        <form onSubmit={handleSubmit} className={styles['signup-form']}>
+        <form
+            onSubmit={handleSubmit} className={styles['signup-form']}>
             <h2>Sign Up</h2>
             <label>
                 <span>email:</span>
