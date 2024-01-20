@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { projectAuth } from '../firebase/config';
+import { projectAuth, projectStorage } from '../firebase/config';
 import { useAuthContext } from './useAuthContext';
 
 export const useSignup = () => {
@@ -8,7 +8,7 @@ export const useSignup = () => {
     const [isPending, setIsPending] = useState(false);
     const { dispatch } = useAuthContext();
 
-    const signup = async (email, password, displayName) => { //use this instead of promises
+    const signup = async (email, password, displayName, thumbnail) => { //use this instead of promises
         setError(null);
         setIsPending(true)
 
@@ -20,8 +20,19 @@ export const useSignup = () => {
                 throw new Error('Could not complete Sign Up');
             }
 
-            // add display name to user
-            await res.user.updateProfile({ displayName });
+            const uploadPath = `thumbnails/${res.user.uid}/${thumbnail.name}`;
+            /* ref method basically accepts a path in here, 
+            which will be a reference to where we want to
+            upload the image. And then all we have to do is 
+            use the put method which puts a file into that 
+            place and then we pass in whatever file we want to 
+            put there. With this we have stored the file object
+            inside of the img variable */
+            const img = await projectStorage.ref(uploadPath).put(thumbnail);
+            const imgUrl = await img.ref.getDownloadURL(); // Get refference of that image in storage
+
+            // add display name and profile picture to user
+            await res.user.updateProfile({ displayName, photoURL: imgUrl });
 
             // dispatch LOGIN action passed in by the AuthContext method
             /* When it dispatches it will fire AuthReducer 
