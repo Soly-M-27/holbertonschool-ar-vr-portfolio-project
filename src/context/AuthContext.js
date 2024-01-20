@@ -6,15 +6,7 @@ export const AuthContext = createContext();
 
 export const authReducer = (state, action) => { // function to update and return the state
     switch (action.type) {
-        /* When we in the future dispatch a login action 
-        whereby the type of the action is going to be LOGIN,
-        we're returning a new object to represent out state */
-        case 'LOGIN': //Dispatch this action in the user sign up 
-        /* We take the current state and spread 
-           those properties and then we say update 
-           the user property so it's no longer going 
-           to be null. But whatever we pass it in as the 
-           upload on the action. */
+        case 'LOGIN':
             return { ...state, user: action.payload } 
         
         case 'LOGOUT':
@@ -28,17 +20,10 @@ export const authReducer = (state, action) => { // function to update and return
     }
 }
 
-/* Fires some code when our React application first renders.
-   So when this component is first evaluated, find
-   some code once to perform a check with Firebase on
-   wether the user . */
+
 export const AuthContextProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(authReducer, {
-        /* Do we have a user currently logged in?
-           Firebase is either going to say yes or no, 
-           and we update our user property right here 
-           appropriately */
         user: null, //initial state of the user
         authIsReady: false // This is what tells how now we know whether there's a user logged in or logged out for sure.
     })

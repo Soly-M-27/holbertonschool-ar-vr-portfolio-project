@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { projectAuth } from '../firebase/config';
 import { useAuthContext } from './useAuthContext';
@@ -19,8 +18,9 @@ export const useLogin = () => { // if we use this hook in a component,
 
         // sign the user out
         try { // try to sign user in and get user via const var res
-            console.log(email, password);
+            
             const res = await projectAuth.signInWithEmailAndPassword(email, password);
+            
 
             // dispatch login action
             dispatch({ type: 'LOGIN', payload: res.user }); // This is what will log the user 

@@ -1,8 +1,7 @@
-import styles from './Login.module.css';
 import { useState } from 'react';
 import { useLogin } from '../../hooks/useLogin';
 
-
+import styles from './Login.module.css';
 export default function Login() {
 
     const [email, setEmail] = useState('');
@@ -11,6 +10,7 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        login(email, password);
         login(email, password);
         console.log("Begin handleSubmit after login");
         console.log("After login: ", email, password);
