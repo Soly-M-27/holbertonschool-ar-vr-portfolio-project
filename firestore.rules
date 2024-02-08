@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /thumbnails/{document=**} {
+      // logged in user uid must match the document creator to read & delete
+      allow read, delete: if request.auth.uid == resource.data.uid;
+
+    }
+
+    match /users/{userID} {
+      // only authorized users can create
+      allow create: if request.auth != null;
+
+    }
+  }
+}

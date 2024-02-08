@@ -9,7 +9,7 @@
 .navbar ul { /*Goes inside the Navbar for different links with display flex so the li tags sit next to each other*/
     display: flex;
     margin: 0 auto;
-    max-width: 960px;
+    justify-content: space-between;
     align-items: center;
 }
 

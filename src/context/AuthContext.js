@@ -1,10 +1,12 @@
 import { createContext, useReducer } from "react";
 import { projectAuth } from "../firebase/config";
 import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 
 export const AuthContext = createContext();
 
 export const authReducer = (state, action) => { // function to update and return the state
+    console.log("authReducer begins in AuthContext.js");
     switch (action.type) {
         /* When we in the future dispatch a login action 
         whereby the type of the action is going to be LOGIN,
@@ -43,16 +45,19 @@ export const AuthContextProvider = ({ children }) => {
         authIsReady: false // This is what tells how now we know whether there's a user logged in or logged out for sure.
     })
 
+    console.log("dispatch came through");
+
     /* Update state change with Firebase
        When function fires checks if user is 
        null or if there are any users at all */
     useEffect(() => {
-        const unsub = projectAuth.onAuthStateChanged((user) => { // Fires every time some kind of authentication state change occurs and dispatches AUTH_IS_READY
+        const unsub = onAuthStateChanged(projectAuth, (user) => { // Fires every time some kind of authentication state change occurs and dispatches AUTH_IS_READY
             dispatch({ type: 'AUTH_IS_READY', payload: user }) 
-            unsub()
-        })
+            unsub();
+        });
 
-    }, []) 
+    }, []); 
+    console.log("Unsub through with auth_is_ready state.");
     console.log('AuthContext state:', state);
 
 

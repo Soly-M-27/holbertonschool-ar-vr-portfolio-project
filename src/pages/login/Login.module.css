@@ -4,6 +4,11 @@
     padding: 20px;
 }
 
+.login-form .error {
+  color: red;
+  font-weight: bold;
+}
+
 .login-form label {
     display: block;
     margin: 30px auto;
