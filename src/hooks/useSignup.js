@@ -20,10 +20,10 @@ export const useSignup = () => {
             console.log("trying to create user with email and password");
             const res = await createUserWithEmailAndPassword(projectAuth, email, password);
             console.log("user signed up: ", res.user);
-
+            
             console.log("updateProfile attempt");
             await updateProfile(res.user, { displayName });
-            
+ 
             console.log("dispatch LOGIN with payload as user");
             dispatch({ type: 'LOGIN', payload: res.user });
 
@@ -39,6 +39,12 @@ export const useSignup = () => {
             console.log("Downloaded imgUrl");
             const imgUrl = await getDownloadURL(storageRef);
 
+            console.log("imgURL?: ", imgUrl);
+            
+            await updateProfile(res.user, { photoURL: imgUrl });
+            console.log("displayName before Firebase upload: ", res.user.displayName);
+            console.log("photoURL before Firebase upload: ", res.user.photoURL);
+
             console.log("Checking db from Firestore: ", db);
             try {
                 console.log("trying to create new collection for Firestore Database titled 'users'");
@@ -47,6 +53,7 @@ export const useSignup = () => {
                     displayName,
                     photoURL: imgUrl
                 });
+                console.log("Document photo with res.user ID: ", res.user.photoURL);
                 console.log("Document written with ID: ", res.user.uid);
 
             } catch (e) {

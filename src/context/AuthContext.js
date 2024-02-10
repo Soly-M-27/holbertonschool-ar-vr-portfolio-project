@@ -46,6 +46,8 @@ export const AuthContextProvider = ({ children }) => {
     })
 
     console.log("dispatch came through");
+    //console.log("user?: ", user);
+    console.log('AuthContext state before unsub:', state);
 
     /* Update state change with Firebase
        When function fires checks if user is 
@@ -53,7 +55,11 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         const unsub = onAuthStateChanged(projectAuth, (user) => { // Fires every time some kind of authentication state change occurs and dispatches AUTH_IS_READY
             dispatch({ type: 'AUTH_IS_READY', payload: user }) 
+            console.log("user before unsub?: ", user);
+            //console.log("action.payload before unsub?: ", action.payload);
             unsub();
+            console.log("user after unsub?: ", user);
+            //console.log("action.payload after unsub?: ", action.payload);
         });
 
     }, []); 
