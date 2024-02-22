@@ -1,33 +1,109 @@
 import styles from './Home.module.css';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useProfileInfo } from '../../hooks/useProfileInfo';
+import { useFirestore } from '../../hooks/useFirestore';
+//import { useCollection } from '../../hooks/useCollection';
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import { Row, Col, Button, Result } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
+import SocialMediaTree from './SocialMediaTree';
+//import AR_BusinessCardSlots from './AR_BusinessCardSlots';
 
 export default function Home() {
     console.log("I'm Home. In Profile.")
 
+    const navigate = useNavigate();
+
     const [Name, setName] = useState('');
-    const [Socials, setSocials] = useState('');
+    const [LinktreeLink, setLinktree] = useState('');
     const [WorkEmail, setWorkEmail] = useState('');
     const [Location, setLocation] = useState('');
     const [NameProfession, setNameProfession] = useState('');
     const [NameBusiness, setNameBusiness] = useState('');
     const [PhoneNum, setPhoneNum] = useState('');
     const [refreshed, setRefreshed] = useState(false);
+    const [formError, setformError] = useState(null);
+    const [newProject, setNewProject] = useState(null);
 
+    //const { addDocument, response } = useFirestore('profile_info');
+    const { response } = useFirestore('profile_info');
     const { authIsReady, user } = useAuthContext();
+    const { profileInfo, error } = useProfileInfo();
+    const { linkInputs } = SocialMediaTree(); 
+    //const { errorC } = useCollection();
+        /*'profile_info',
+        ["uid", "==", user.uid],
+        ["createdAt", "desc"]*/
+
 
     const handleRefresh = () => {
         setRefreshed(true);
         window.location.reload();
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Handle Profile Info");
-        //signup(email, password, displayName, thumbnail);
+        setformError(null);
+
+        if (!Name) {
+            setformError("Please enter your first & last name.");
+            return;
+        }
+
+        if (!Location) {
+            setformError("Please enter your business's location/address.");
+            return;
+        }
+
+        if (!NameProfession) {
+            setformError("Please enter your professions title");
+            return;
+        }
+
+        if (!NameBusiness) {
+            setformError("Please enter your business's name/title.");
+            return;
+        }
+
+        if (!linkInputs) {
+            setformError("Please enter your social media link sources.");
+            return;
+        }
+
+        // user obj that created project obj
+        const createdBy = {
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            id: user.uid
+        }
+
+        // object that contains business card form info
+        const project = {
+            Name,
+            WorkEmail,
+            Location,
+            NameProfession,
+            NameBusiness,
+            PhoneNum,
+            linkInputs,
+            LinktreeLink,
+            createdBy
+        }
+
+        console.log(Name, WorkEmail, Location, NameProfession, NameBusiness, PhoneNum, LinktreeLink);
+        console.log("project object: ", project);
+
+        setNewProject(project);
+        profileInfo(newProject);
+        //await addDocument(project);
+
+        if (!response.error) {
+            console.log("history has been pushed to homepage");
+            navigate('/');
+        }
+
         console.log("New Info!");
     }
 
@@ -54,7 +130,7 @@ export default function Home() {
 
     if (refreshed) {
         return <Link to="/home"/>;
-    }
+    } 
 
     return (
         <>
@@ -70,25 +146,27 @@ export default function Home() {
                             <label>
                                 <span>Name (First & Last):</span>
                                 <input
+                                    required
                                     type="text"
                                     onChange={(e) => setName(e.target.value)}
                                     value={Name}
                                 />
                             </label>
                             <label>
-                                <span>Social medias:</span> 
-                                <input
-                                    type="text"
-                                    onChange={(e) => setSocials(e.target.value)}
-                                    value={Socials}
-                                />
-                            </label>
-                            <label>
-                                <span>Work email (e-mail related to Business Card Info):</span>
+                                <span>Work email (Optional: e-mail related to Business Card Info):</span>
                                 <input
                                     type="text"
                                     onChange={(e) => setWorkEmail(e.target.value)}
                                     value={WorkEmail}
+                                />
+                            </label>
+                            <label>
+                                <span>Name of business:</span> 
+                                <input
+                                    required
+                                    type="text"
+                                    onChange={(e) => setNameBusiness(e.target.value)}
+                                    value={NameBusiness}
                                 />
                             </label>
                             <label>
@@ -103,33 +181,43 @@ export default function Home() {
                             <label>
                                 <span>Name of profession:</span> 
                                 <input
+                                    required
                                     type="text"
                                     onChange={(e) => setNameProfession(e.target.value)}
                                     value={NameProfession}
                                 />
                             </label>
                             <label>
-                                <span>Name of business:</span> 
-                                <input
-                                    type="text"
-                                    onChange={(e) => setNameBusiness(e.target.value)}
-                                    value={NameBusiness}
-                                />
-                            </label>
-                            <label>
-                                <span>Phone or cell number (Optional):</span> 
+                                <span>Phone or cell work number (Optional):</span> 
                                 <input
                                     type="text"
                                     onChange={(e) => setPhoneNum(e.target.value)}
                                     value={PhoneNum}
                                 />
                             </label>
+                            <label>
+                                <SocialMediaTree />
+                            </label>
+                            <label>
+                                <h3>Linktree is suggested in case {user.displayName} has more than 4 social media links to share</h3>
+                                <span>Linktree (Optional):</span> 
+                                <input
+                                    type="text"
+                                    onChange={(e) => setLinktree(e.target.value)}
+                                    value={LinktreeLink}
+                                />
+                            </label>
+                            <div>
+                                <button className='btn'>Begin AR Business Card</button>
+                                {error && <div className="error">{error}</div>}
+                                {formError && <div className="error">{formError}</div>}
+                            </div>
                         </form>
                     </Col>
                 </Row>
             )}
         </>
-                            /*<button className='btn'>Sign Up</button>
-                            {error && <div className="error">{error}</div>}*/
     )
+    //{errorC && <p className='error'>{errorC}</p>}
+    //{BusinessCards && <AR_BusinessCardSlots BusinessCard={BusinessCards} />}
 }

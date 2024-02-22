@@ -3,18 +3,15 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useAuthContext } from './useAuthContext';
-import { collection, setDoc, doc} from "firebase/firestore";
+import { setDoc, doc} from "firebase/firestore";
 
 export const useSignup = () => {
-    //const [ isCancelled, setIsCanceled ] = useState(false);
-    //const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
     const { dispatch } = useAuthContext();
 
     const signup = async (email, password, displayName, thumbnail) => { //use this instead of promises
         console.log("signup function begins in useSignup.js");
         setError(null);
-        //setIsPending(true)
 
         try {
             console.log("trying to create user with email and password");
