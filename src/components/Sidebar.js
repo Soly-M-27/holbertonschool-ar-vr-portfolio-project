@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useAuthContext } from '../hooks/useAuthContext';
+//import { useAuthContext } from '../hooks/useAuthContext';
 import { Button, ConfigProvider, Drawer, Space } from 'antd';
 import React, { useState } from 'react';
 //import { Col, Row } from 'antd';
@@ -26,7 +26,7 @@ const customTheme = {
   };
 
 export default function Sidebar() {
-    const { user } = useAuthContext();
+    // const { user } = useAuthContext();
 
     const [open, setOpen] = useState(true);
 
@@ -58,8 +58,8 @@ export default function Sidebar() {
                         >
                             <div style={{ padding: '20px' }}>
                                 <div style={{ marginBottom: '20px' }}>
-                                    <Avatar src={user.photoURL} />
-                                    <h2 style={{ marginTop: '20px' }}>{user.displayName}'s Sidebar</h2>
+                                    <Avatar src={DashboardIcon} />
+                                    <h2 style={{ marginTop: '20px' }}>displayNames sidebar</h2>
                                 </div>
                                 <nav style={{ marginTop: '80px', marginLeft: '20px' }}>
                                     <ul>
