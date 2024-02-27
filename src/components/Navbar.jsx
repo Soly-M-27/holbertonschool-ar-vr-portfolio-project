@@ -1,7 +1,7 @@
-import styles from './Navbar.module.css';
+import styles from '@/Navbar.module.css';
 import { Link } from 'react-router-dom';
-import { useLogout } from '../hooks/useLogout';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { useLogout } from '@/hooks/useLogout';
+import { useAuthContext } from '@/hooks/useAuthContext';
 import { Col, Row } from 'antd';
 
 export default function Navbar() {

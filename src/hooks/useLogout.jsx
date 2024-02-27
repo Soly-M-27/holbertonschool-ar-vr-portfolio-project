@@ -1,7 +1,7 @@
-import { projectAuth } from '../firebase/config';
+import { projectAuth } from '@/firebase/config';
 import { useState } from 'react';
 import { signOut } from 'firebase/auth';
-import { useAuthContext } from './useAuthContext';
+import { useAuthContext } from '@/useAuthContext';
 
 export const useLogout = () => { // if we use this hook in a component, 
                                  // then we're going to get all these states.

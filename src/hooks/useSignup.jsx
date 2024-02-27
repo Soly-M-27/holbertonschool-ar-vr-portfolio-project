@@ -1,8 +1,8 @@
-import { projectAuth, projectStorage, db } from '../firebase/config';
+import { projectAuth, projectStorage, db } from '@/firebase/config';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { useAuthContext } from './useAuthContext';
+import { useAuthContext } from '@/useAuthContext';
 import { setDoc, doc} from "firebase/firestore";
 
 export const useSignup = () => {

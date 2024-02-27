@@ -1,5 +1,5 @@
 // styles
-import styles from './Avatar.css';
+import styles from '@/Avatar.css';
 import { Col, Row } from 'antd';
 
 export default function Avatar({ src }) {

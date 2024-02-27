@@ -1,8 +1,8 @@
-import { db } from '../firebase/config';
+import { db } from '@/firebase/config';
 //import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useState } from 'react';
 //import { updateProfile } from 'firebase/auth';
-import { useAuthContext } from './useAuthContext';
+import { useAuthContext } from '@/useAuthContext';
 import { collection, addDoc } from "firebase/firestore";
 
 export const useProfileInfo = () => {

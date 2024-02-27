@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, ConfigProvider, Drawer, Space } from 'antd';
 import React, { useState } from 'react';
 //import { Col, Row } from 'antd';
-import Avatar from '../components/Avatar';
+import Avatar from '@/components/Avatar';
 
 // components
 // styles & images

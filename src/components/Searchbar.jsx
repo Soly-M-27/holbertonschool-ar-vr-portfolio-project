@@ -1,4 +1,4 @@
-import styles from './Searchbar.css';
+import styles from '@/Searchbar.css';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Col, Row } from 'antd';
