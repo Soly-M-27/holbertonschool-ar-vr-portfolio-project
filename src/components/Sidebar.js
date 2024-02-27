@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-//import { useAuthContext } from '../hooks/useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 import { Button, ConfigProvider, Drawer, Space } from 'antd';
 import React, { useState } from 'react';
 //import { Col, Row } from 'antd';
@@ -26,7 +26,7 @@ const customTheme = {
   };
 
 export default function Sidebar() {
-    // const { user } = useAuthContext();
+    const { user } = useAuthContext();
 
     const [open, setOpen] = useState(true);
 
